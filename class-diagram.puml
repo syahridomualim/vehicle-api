@@ -1,0 +1,50 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+enum Color {
+    - RED
+    - WHITE
+    - BLUE
+    - GREEN
+    - YELLOW
+}
+
+class Vehicle {
+    - tagNumber: String
+    - name: String
+    - color: Color
+    + getters and setter()
+}
+
+interface VehicleRepository<Vehicle, String> extends JpaRepository
+
+interface VehicleService {
+    + saveVehicle(createVehicle: CreateVehicleRequest)
+    + getVehicle(tagNumber: String): VehicleResponse
+    + getVehicles(): List<VehicleResponse>
+}
+
+class VehicleServiceImp implements VehicleService {
+    - vehicleRepository: VehicleRepository
+}
+
+class VehicleController {
+    - vehicleService: VehicleService
+
+    + saveVehicle(createVehicle: CreateVehicleRequest)
+    + getVehicle(tagNumber: String): ResponseEntity<HttpResponse<VehicleResponse>>
+    + getVehicles(): ResponseEntity<HttpResponse<List<VehicleResponse>>>
+}
+
+class HttpResponse {
+    - timestamp: Long
+    - httpStatus: HttpStatus
+    - httpCode: Int
+    - message: String
+    - data: T
+}
+
+VehicleServiceImp --* VehicleRepository
+VehicleController --* VehicleService
+
+@enduml

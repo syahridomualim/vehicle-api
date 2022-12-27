@@ -12,7 +12,7 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
 server:
   port: 8080
-springdoc:
+spring-doc:
   swagger-ui:
     path: /
-  packages-to-scan: com.example.springvalidation.controller
+  packages-to-scan: com.example.vehicleapp.controller
