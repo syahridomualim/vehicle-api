@@ -1,0 +1,30 @@
+@startuml
+'https://plantuml.com/component-diagram
+
+frame "User" {
+    [mobile]
+    [web]
+    [desktop]
+}
+
+cloud {
+  [url] <-up-> User
+}
+node "Rest API Application" {
+  [Controller] <-left-> [url]
+  [Service] <--> [Controller]
+  [Service] <--> [Repository]
+}
+
+database "MySql" {
+    frame table-n {
+    }
+    frame table-b {
+    }
+    frame table-a {
+    }
+}
+
+[Repository] <-left-> MySql
+
+@enduml
