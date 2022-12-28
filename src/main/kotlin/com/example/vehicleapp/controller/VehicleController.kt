@@ -1,6 +1,7 @@
 package com.example.vehicleapp.controller
 
 import com.example.vehicleapp.model.CreateVehicleRequest
+import com.example.vehicleapp.model.EditVehicleRequest
 import com.example.vehicleapp.model.HttpResponse
 import com.example.vehicleapp.model.VehicleResponse
 import com.example.vehicleapp.service.VehicleService
@@ -25,18 +26,38 @@ class VehicleController @Autowired constructor(
     @GetMapping("/vehicles/{tag-number}")
     fun getVehicle(@PathVariable(value = "tag-number") tagNumber: String): ResponseEntity<HttpResponse<VehicleResponse>> {
         val vehicleResponse = vehicleService.getVehicle(tagNumber)
-        return createResponse(vehicleResponse, "Successfully get vehicle by ${vehicleResponse.tagNumber}", HttpStatus.OK)
+        return createResponse(
+            vehicleResponse,
+            "Successfully get vehicle by tag number ${vehicleResponse.tagNumber}",
+            HttpStatus.OK
+        )
     }
 
     @GetMapping("/vehicles")
     fun getVehicles(): ResponseEntity<HttpResponse<List<*>>> {
         val vehicles = vehicleService.getVehicles()
-       return if (vehicles.isEmpty()) {
+        return if (vehicles.isEmpty()) {
             createResponse(Collections.EMPTY_LIST, "Data is empty", HttpStatus.NOT_FOUND)
         } else {
             createResponse(vehicles, "Data has been successfully invoked", HttpStatus.OK)
-       }
+        }
     }
+
+    @PutMapping("/vehicles/{tag-number}")
+    fun editVehicle(
+        @PathVariable("tag-number") tagNumber: String,
+        @Valid @RequestBody editVehicleRequest: EditVehicleRequest
+    ): ResponseEntity<HttpResponse<Any>> {
+        val vehicle = vehicleService.editVehicle(tagNumber, editVehicleRequest)
+        return createResponse(vehicle, "successfully edit data", HttpStatus.ACCEPTED)
+    }
+
+    @DeleteMapping("/vehicles/{tag-number}")
+    fun deleteVehicle(@PathVariable("tag-number") tagNumber: String): ResponseEntity<HttpResponse<Any>> {
+        vehicleService.deleteVehicle(tagNumber)
+        return createResponse(Collections.EMPTY_LIST, "data has been deleted", HttpStatus.MOVED_PERMANENTLY)
+    }
+
     private fun <T> createResponse(data: T, message: String, httpStatus: HttpStatus): ResponseEntity<HttpResponse<T>> {
         val httpResponse = HttpResponse(
             timestamp = Date().time,
