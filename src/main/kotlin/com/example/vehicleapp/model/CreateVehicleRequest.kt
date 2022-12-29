@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size
 data class CreateVehicleRequest(
     @field:NotEmpty(message = "Please provide your tag number")
     val tagNumber: String,
-    @field:Size(min = 5, message = "Please provide in the value minimum of 5 characters")
+    @field:Size(min = 5, message = "Please provide the name minimum of 5 characters")
     val name: String,
     val color: Color
 )
