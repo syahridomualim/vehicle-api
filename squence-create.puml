@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor user
+participant vehicleController
+participant vehicleService
+participant vehicleRepository
+database vehicleDb
+user -> vehicleController : POST api/v1/vehicles\n{\n\t"tagNumber": "string",\n\t"name": "string",\n\t"color": "RED,GREEN,YELLOW,WHITE"\n }
+vehicleController -> vehicleService
+vehicleService -> vehicleRepository: check is the vehicle existing
+vehicleRepository -> vehicleDb: query get to the db
+vehicleDb --> vehicleRepository
+vehicleRepository --> vehicleService
+vehicleService -> vehicleService: if vehicle already exists
+vehicleService --> vehicleController : vehicle already exists
+vehicleController --> user : {\n   "timestamp": 1672450279620,\n   "httpStatus": "CONFLICT",\n   "httpCode": 409,\n   "message": "Ups... there are errors",\n   "data": [\n\t\t{\n\t\t\t"error": "data already exists"\n\t\t}\n\t]\n}
+vehicleService -> vehicleRepository : no vehicle yet
+vehicleRepository -> vehicleDb: query pos to the db
+vehicleRepository --> vehicleRepository
+vehicleRepository --> vehicleService
+vehicleService --> vehicleController
+vehicleController --> user : {\n\t"timestamp": 1672459355925,\n\t"httpStatus": "CREATED",\n\t"httpCode": 201,\n\t"message": "data has been saved",\n\t"data": []\n}
+
+@enduml
