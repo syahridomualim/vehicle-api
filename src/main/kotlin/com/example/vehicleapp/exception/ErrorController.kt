@@ -40,7 +40,7 @@ class ErrorController : ResponseEntityExceptionHandler() {
     }
 
     private fun createResponse(data: Any, message: String, httpStatus: HttpStatus): ResponseEntity<Any> {
-        val httpResponse = HttpResponse<Any>(
+        val httpResponse = HttpResponse(
             timestamp = Date().time,
             httpStatus = httpStatus,
             httpCode = httpStatus.value(),
