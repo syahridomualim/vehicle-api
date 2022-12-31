@@ -1,6 +1,7 @@
 package com.example.vehicleapp.service
 
 import com.example.vehicleapp.entity.Vehicle
+import com.example.vehicleapp.exception.domain.VehicleAlreadyExist
 import com.example.vehicleapp.logger.Logger.log
 import com.example.vehicleapp.model.CreateVehicleRequest
 import com.example.vehicleapp.model.EditVehicleRequest
@@ -9,11 +10,13 @@ import com.example.vehicleapp.repository.VehicleRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 class VehicleServiceImpl @Autowired
 constructor(private val vehicleRepository: VehicleRepository) : VehicleService {
     override fun saveVehicle(createVehicleRequest: CreateVehicleRequest) {
+        validateVehicle(createVehicleRequest.tagNumber)
         val vehicle = Vehicle(
             tagNumber = createVehicleRequest.tagNumber,
             name = createVehicleRequest.name,
@@ -23,15 +26,10 @@ constructor(private val vehicleRepository: VehicleRepository) : VehicleService {
         vehicleRepository.save(vehicle)
     }
 
-    override fun getVehicle(tagNumber: String): VehicleResponse {
-        val vehicle = vehicleRepository.findById(tagNumber)
-        val vehicleResponse = vehicle.map {
-            mapToVehicleResponse(it)
-        }
-        return vehicleResponse.orElseThrow {
-            log.error("Vehicle doesn't exist")
-            NoSuchElementException("Vehicle doesn't exist")
-        }
+    @OptIn(ExperimentalStdlibApi::class)
+    override fun getVehicle(tagNumber: String): VehicleResponse? {
+        val vehicle = vehicleRepository.findById(tagNumber).getOrNull()
+        return vehicle?.let { mapToVehicleResponse(it) }
     }
 
     override fun getVehicles(): List<VehicleResponse> {
@@ -67,5 +65,13 @@ constructor(private val vehicleRepository: VehicleRepository) : VehicleService {
 
     private fun mapToVehicleResponse(vehicle: Vehicle): VehicleResponse {
         return VehicleResponse(vehicle.tagNumber, vehicle.name, vehicle.color)
+    }
+
+    private fun validateVehicle(tagNumber: String): VehicleResponse? {
+        val vehicle = getVehicle(tagNumber)
+        if (vehicle != null) {
+            throw VehicleAlreadyExist("Vehicle $tagNumber already exists")
+        }
+        return null
     }
 }

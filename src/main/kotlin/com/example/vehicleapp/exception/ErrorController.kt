@@ -1,5 +1,6 @@
 package com.example.vehicleapp.exception
 
+import com.example.vehicleapp.exception.domain.VehicleAlreadyExist
 import com.example.vehicleapp.model.HttpResponse
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -12,8 +13,6 @@ import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 import java.util.*
 import java.util.stream.Collectors
-import kotlin.NoSuchElementException
-import kotlin.collections.HashMap
 
 @RestControllerAdvice
 class ErrorController : ResponseEntityExceptionHandler() {
@@ -37,6 +36,13 @@ class ErrorController : ResponseEntityExceptionHandler() {
         val errorMessages = HashMap<String, String?>()
         errorMessages["error"] = exception.message
         return createResponse(errorMessages, "data not found", HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(VehicleAlreadyExist::class)
+    fun vehicleAlreadyExists(exception: VehicleAlreadyExist): ResponseEntity<Any> {
+        val errorMessages = HashMap<String, String?>()
+        errorMessages["error"] = exception.message
+        return createResponse(errorMessages, "data already exists", HttpStatus.CONFLICT)
     }
 
     private fun createResponse(data: Any, message: String, httpStatus: HttpStatus): ResponseEntity<Any> {
