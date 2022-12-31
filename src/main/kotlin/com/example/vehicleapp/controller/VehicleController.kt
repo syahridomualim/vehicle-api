@@ -25,7 +25,7 @@ class VehicleController @Autowired constructor(
 
     @GetMapping("/vehicles/{tag-number}")
     fun getVehicle(@PathVariable(value = "tag-number") tagNumber: String): ResponseEntity<HttpResponse<VehicleResponse?>> {
-        val vehicleResponse = vehicleService.getVehicle(tagNumber) ?: throw NoSuchElementException("Data does not contain vehicle")
+        val vehicleResponse = vehicleService.getVehicle(tagNumber) ?: throw NoSuchElementException("Vehicle by $tagNumber not found")
         return createResponse(
             vehicleResponse,
             "Successfully get vehicle by tag number ${vehicleResponse.tagNumber}",
