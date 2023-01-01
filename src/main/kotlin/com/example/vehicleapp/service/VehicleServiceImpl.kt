@@ -2,11 +2,11 @@ package com.example.vehicleapp.service
 
 import com.example.vehicleapp.entity.Vehicle
 import com.example.vehicleapp.exception.domain.VehicleAlreadyExist
-import com.example.vehicleapp.logger.Logger.log
 import com.example.vehicleapp.model.CreateVehicleRequest
 import com.example.vehicleapp.model.EditVehicleRequest
 import com.example.vehicleapp.model.VehicleResponse
 import com.example.vehicleapp.repository.VehicleRepository
+import mu.KotlinLogging.logger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
@@ -19,26 +19,31 @@ constructor(private val vehicleRepository: VehicleRepository) : VehicleService {
         validateVehicle(createVehicleRequest.tagNumber)
         val vehicle = Vehicle(
             tagNumber = createVehicleRequest.tagNumber,
-            name = createVehicleRequest.name,
+            owner = createVehicleRequest.owner,
+            brand = createVehicleRequest.brand,
+            year = createVehicleRequest.year,
+            cylinderCapacity = createVehicleRequest.cylinderCapacity,
+            fuel = createVehicleRequest.fuel,
             color = createVehicleRequest.color
         )
-        log.info("saved new vehicle")
+        logger { }.info { "saved vehicle" }
         vehicleRepository.save(vehicle)
     }
 
     @OptIn(ExperimentalStdlibApi::class)
     override fun getVehicle(tagNumber: String): VehicleResponse? {
         val vehicle = vehicleRepository.findById(tagNumber).getOrNull()
+        logger { }.info { "get vehicle with tag number $tagNumber" }
         return vehicle?.let { mapToVehicleResponse(it) }
     }
 
     override fun getVehicles(): List<VehicleResponse> {
         val vehicles = vehicleRepository.findAll().ifEmpty {
-            log.warn("Vehicle is empty")
+            logger { }.warn { "Vehicle is empty" }
             Collections.emptyList()
         }
 
-        log.info("get all vehicles")
+        logger { }.info { "get all vehicles" }
         return vehicles.map {
             mapToVehicleResponse(it)
         }
@@ -50,21 +55,21 @@ constructor(private val vehicleRepository: VehicleRepository) : VehicleService {
         }
 
         vehicle.apply {
-            name = editVehicleRequest.name
+            owner = editVehicleRequest.name
             color = editVehicleRequest.color
         }
 
-        log.info("edited vehicle")
+        logger { }.info { "edited vehicle" }
         return mapToVehicleResponse(vehicle)
     }
 
     override fun deleteVehicle(tagNumber: String) {
-        log.info("deleted vehicle")
+        logger { }.info { "deleted vehicle" }
         vehicleRepository.deleteById(tagNumber)
     }
 
     private fun mapToVehicleResponse(vehicle: Vehicle): VehicleResponse {
-        return VehicleResponse(vehicle.tagNumber, vehicle.name, vehicle.color)
+        return VehicleResponse(vehicle.tagNumber, vehicle.owner, vehicle.color)
     }
 
     private fun validateVehicle(tagNumber: String): VehicleResponse? {

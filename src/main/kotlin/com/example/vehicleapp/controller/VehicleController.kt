@@ -1,5 +1,6 @@
 package com.example.vehicleapp.controller
 
+import com.example.vehicleapp.logger.Logger.log
 import com.example.vehicleapp.model.CreateVehicleRequest
 import com.example.vehicleapp.model.EditVehicleRequest
 import com.example.vehicleapp.model.HttpResponse
@@ -25,11 +26,10 @@ class VehicleController @Autowired constructor(
 
     @GetMapping("/vehicles/{tag-number}")
     fun getVehicle(@PathVariable(value = "tag-number") tagNumber: String): ResponseEntity<HttpResponse<VehicleResponse?>> {
-        val vehicleResponse = vehicleService.getVehicle(tagNumber) ?: throw NoSuchElementException("Vehicle by $tagNumber not found")
+        val vehicleResponse =
+            vehicleService.getVehicle(tagNumber) ?: throw NoSuchElementException("Vehicle by $tagNumber not found")
         return createResponse(
-            vehicleResponse,
-            "Successfully get vehicle by tag number ${vehicleResponse.tagNumber}",
-            HttpStatus.OK
+            vehicleResponse, "Successfully get vehicle by tag number ${vehicleResponse.tagNumber}", HttpStatus.OK
         )
     }
 
@@ -45,8 +45,7 @@ class VehicleController @Autowired constructor(
 
     @PutMapping("/vehicles/{tag-number}")
     fun editVehicle(
-        @PathVariable("tag-number") tagNumber: String,
-        @Valid @RequestBody editVehicleRequest: EditVehicleRequest
+        @PathVariable("tag-number") tagNumber: String, @Valid @RequestBody editVehicleRequest: EditVehicleRequest
     ): ResponseEntity<HttpResponse<Any>> {
         val vehicle = vehicleService.editVehicle(tagNumber, editVehicleRequest)
         return createResponse(vehicle, "successfully edit data", HttpStatus.ACCEPTED)
