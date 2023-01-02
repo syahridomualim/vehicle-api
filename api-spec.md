@@ -7,7 +7,11 @@
 ```json
 {
   "tagNumber": "string",
-  "name": "string",
+  "owner": "string",
+  "brand": "string",
+  "year": "string",
+  "cylinderCapacity": "integer",
+  "fuel": "PETROL. DIESEL, OTHER",
   "color": "RED,GREEN,YELLOW,WHITE"
 }
 ```
@@ -37,7 +41,11 @@
   "message": "invoked vehicle by tag number $tagNumber",
   "data": {
     "tagNumber": "string",
-    "name": "string",
+    "owner": "string",
+    "brand": "string",
+    "year": "string",
+    "cylinderCapacity": "integer",
+    "fuel": "PETROL. DIESEL, OTHER",
     "color": "RED,GREEN,YELLOW,WHITE"
   }
 }
@@ -56,17 +64,29 @@
   "data": [
     {
       "tagNumber": "string",
-      "name": "string",
+      "owner": "string",
+      "brand": "string",
+      "year": "string",
+      "cylinderCapacity": "integer",
+      "fuel": "PETROL. DIESEL, OTHER",
       "color": "RED,GREEN,YELLOW,WHITE"
     },
     {
       "tagNumber": "string",
-      "name": "string",
+      "owner": "string",
+      "brand": "string",
+      "year": "string",
+      "cylinderCapacity": "integer",
+      "fuel": "PETROL. DIESEL, OTHER",
       "color": "RED,GREEN,YELLOW,WHITE"
     },
     {
       "tagNumber": "string",
-      "name": "string",
+      "owner": "string",
+      "brand": "string",
+      "year": "string",
+      "cylinderCapacity": "integer",
+      "fuel": "PETROL. DIESEL, OTHER",
       "color": "RED,GREEN,YELLOW,WHITE"
     }
   ]
@@ -79,6 +99,11 @@
 ```json
 {
   "name": "string",
+  "owner": "string",
+  "brand": "string",
+  "year": "string",
+  "cylinderCapacity": "integer",
+  "fuel": "PETROL. DIESEL, OTHER",
   "color": "RED,GREEN,YELLOW,WHITE"
 }
 ```
@@ -91,7 +116,11 @@
   "message": "successfully edit data",
   "data": {
     "tagNumber": "string",
-    "name": "string",
+    "owner": "string",
+    "brand": "string",
+    "year": "string",
+    "cylinderCapacity": "integer",
+    "fuel": "PETROL. DIESEL, OTHER",
     "color": "RED,GREEN,YELLOW,WHITE"
   }
 }
