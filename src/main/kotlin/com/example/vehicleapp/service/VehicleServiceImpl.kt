@@ -55,7 +55,7 @@ constructor(private val vehicleRepository: VehicleRepository) : VehicleService {
         }
 
         vehicle.apply {
-            owner = editVehicleRequest.name
+            owner = editVehicleRequest.owner
             color = editVehicleRequest.color
         }
 
