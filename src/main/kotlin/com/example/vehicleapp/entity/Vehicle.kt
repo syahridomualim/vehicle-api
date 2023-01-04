@@ -12,7 +12,7 @@ data class Vehicle(
     var owner: String,
     var brand: String,
     var year: String,
-    var cylinderCapacity: Int,
+    var cylinderCapacity: String,
     @Enumerated(value = EnumType.STRING)
     var fuel: Fuel,
     @Enumerated(value = EnumType.STRING)
