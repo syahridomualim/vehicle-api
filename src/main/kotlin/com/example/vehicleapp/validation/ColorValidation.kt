@@ -3,13 +3,12 @@ package com.example.vehicleapp.validation
 import com.example.vehicleapp.entity.Color
 import jakarta.validation.Constraint
 import jakarta.validation.Payload
-import java.lang.annotation.*
 import kotlin.reflect.KClass
 
 
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.RUNTIME)
-@Documented
+@MustBeDocumented
 @Constraint(validatedBy = [ColorValidator::class])
 annotation class ColorValidation ( //error message
     val message: String = "",  //represents group of constraints
