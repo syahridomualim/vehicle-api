@@ -5,5 +5,6 @@ enum class Color {
     WHITE,
     BLUE,
     GREEN,
-    YELLOW
+    YELLOW,
+    DEFAULT
 }
