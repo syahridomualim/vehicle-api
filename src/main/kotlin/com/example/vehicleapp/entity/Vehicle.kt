@@ -1,10 +1,8 @@
 package com.example.vehicleapp.entity
 
-import jakarta.persistence.Entity
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
-import jakarta.persistence.Id
+import jakarta.persistence.*
 
+@Table(name = "vehicle")
 @Entity
 data class Vehicle(
     @Id
@@ -12,7 +10,7 @@ data class Vehicle(
     var owner: String,
     var brand: String,
     var year: String,
-    var cylinderCapacity: String,
+    var cylinderCapacity: Int,
     @Enumerated(value = EnumType.STRING)
     var fuel: Fuel,
     @Enumerated(value = EnumType.STRING)
