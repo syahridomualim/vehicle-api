@@ -16,7 +16,7 @@ data class Vehicle(
     var owner: String,
     var brand: String,
     var year: String,
-    var cylinderCapacity: String,
+    var cylinderCapacity: Int,
     @Enumerated(value = EnumType.STRING)
     var fuel: Fuel,
     @Enumerated(value = EnumType.STRING)

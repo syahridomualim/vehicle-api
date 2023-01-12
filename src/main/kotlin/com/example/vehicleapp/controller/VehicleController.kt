@@ -1,11 +1,11 @@
 package com.example.vehicleapp.controller
 
-import com.example.vehicleapp.logger.Logger.log
 import com.example.vehicleapp.model.CreateVehicleRequest
 import com.example.vehicleapp.model.EditVehicleRequest
 import com.example.vehicleapp.model.HttpResponse
 import com.example.vehicleapp.model.VehicleResponse
 import com.example.vehicleapp.service.VehicleService
+import com.example.vehicleapp.util.createResponse
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -57,15 +57,4 @@ class VehicleController @Autowired constructor(
         return createResponse(Collections.EMPTY_LIST, "data has been deleted", HttpStatus.MOVED_PERMANENTLY)
     }
 
-    private fun <T> createResponse(data: T, message: String, httpStatus: HttpStatus): ResponseEntity<HttpResponse<T>> {
-        val httpResponse = HttpResponse(
-            timestamp = Date().time,
-            httpStatus = httpStatus,
-            httpCode = httpStatus.value(),
-            message = message,
-            data = data
-        )
-
-        return ResponseEntity.ok(httpResponse)
-    }
 }

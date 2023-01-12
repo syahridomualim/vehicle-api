@@ -55,10 +55,15 @@ constructor(private val vehicleRepository: VehicleRepository) : VehicleService {
         }
 
         vehicle.apply {
-            owner = editVehicleRequest.owner
+            owner = if (editVehicleRequest.owner == "") vehicle.owner else editVehicleRequest.owner
+            brand = if (editVehicleRequest.brand == "") vehicle.brand else editVehicleRequest.brand
+            year = if (editVehicleRequest.year == "") vehicle.year else editVehicleRequest.year
+            cylinderCapacity = if (editVehicleRequest.cylinderCapacity == 0) vehicle.cylinderCapacity else editVehicleRequest.cylinderCapacity
+            fuel = editVehicleRequest.fuel
             color = editVehicleRequest.color
         }
 
+        vehicleRepository.save(vehicle)
         logger { }.info { "edited vehicle" }
         return mapToVehicleResponse(vehicle)
     }
