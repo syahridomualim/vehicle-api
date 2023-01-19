@@ -27,7 +27,7 @@ class VehicleServiceTest {
             "Yana",
             "HONDA",
             "2014",
-            "125",
+            125,
             Fuel.PETROL,
             Color.BLUE
         ),
@@ -36,7 +36,7 @@ class VehicleServiceTest {
             "Mualim",
             "YAMAHA",
             "2014",
-            "150",
+            150,
             Fuel.PETROL,
             Color.RED
         ),
@@ -45,7 +45,7 @@ class VehicleServiceTest {
             "Samsuri",
             "SUZUKI",
             "2014",
-            "150",
+            150,
             Fuel.PETROL,
             Color.GREEN
         )
